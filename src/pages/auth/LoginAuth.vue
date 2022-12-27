@@ -10,12 +10,10 @@
           <h1 class="text-h3 text-center text-weight-bold">Login</h1>
           <q-form
             class="q-gutter-md q-mt-xl"
-            v-bind:style="
-              ($q.screen.md || $q.screen.gt.md) && {
-                width: '500px',
-                margin: 'auto',
-              }
-            "
+            v-bind:style="{
+              width: $q.screen.md || ($q.screen.gt.md && '500px'),
+              margin: $q.screen.md || ($q.screen.gt.md && 'auto'),
+            }"
           >
             <q-input outlined v-model="email" label="Email" lazy-rules />
 
