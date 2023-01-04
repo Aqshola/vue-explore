@@ -23,6 +23,14 @@ const routes: RouteRecordRaw[] = [
     ],
   },
 
+  {
+    path: '/todo',
+    component: () => import('layouts/TodoWrapper.vue'),
+    children: [
+      { path: '', component: () => import('pages/todo/IndexTodo.vue') },
+    ],
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {

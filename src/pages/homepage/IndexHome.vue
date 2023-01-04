@@ -37,7 +37,7 @@ export default {
   setup() {
     const router = useRouter();
     function openTodo() {
-      router.push('/login');
+      router.push('/todo');
     }
     return {
       openTodo,
