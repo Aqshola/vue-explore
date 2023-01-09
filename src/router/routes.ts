@@ -25,9 +25,15 @@ const routes: RouteRecordRaw[] = [
 
   {
     path: '/todo',
-    component: () => import('layouts/TodoWrapper.vue'),
     children: [
       { path: '', component: () => import('pages/todo/IndexTodo.vue') },
+    ],
+  },
+
+  {
+    path: '/todo/create',
+    children: [
+      { path: '', component: () => import('pages/todo/CreateTodo.vue') },
     ],
   },
 

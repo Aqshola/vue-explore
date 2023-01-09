@@ -5,42 +5,62 @@
     style="min-height: 100vh"
     class="q-pa-md"
   >
-    <q-header reveal class="bg-red-7">
-      <q-toolbar>
-        <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-        <q-toolbar-title>
-          <router-link to="/" class="text-white" style="text-decoration: none">
-            Vue Todo
-          </router-link>
-        </q-toolbar-title>
-
-        <q-btn to="/login" flat label="Sign Out" />
-      </q-toolbar>
-    </q-header>
-
     <q-drawer
       v-model="drawer"
-      show-if-abov
       :width="200"
       :breakpoint="500"
       bordered
-      class="bg-red-7"
+      class="bg-white column justify-between"
+      :class="{ 'q-pb-xl': $q.screen.md || $q.screen.gt.md }"
     >
-      <q-scroll-area class="fit">
-        <q-list>
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="calendar" />
-            </q-item-section>
-            <q-item-section> Schedule </q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
+      <!-- <q-scroll-area class="fit column justify-between"> -->
+      <q-item>
+        <q-item-section avatar style="min-width: 0; width: fit-content">
+          <q-icon name="account_circle" size="lg" />
+        </q-item-section>
+        <q-item-section style="width: 50px">
+          <h5 class="text-subtitle2 q-ma-none q-pa-none">John</h5>
+        </q-item-section>
+        <q-space />
+        <q-item-section avatar>
+          <q-icon name="settings" size="xs" />
+        </q-item-section>
+      </q-item>
+      <q-separator />
+      <q-list>
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="today" />
+          </q-item-section>
+          <q-item-section> Today </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="date_range" />
+          </q-item-section>
+          <q-item-section> All</q-item-section>
+        </q-item>
+      </q-list>
+      <q-item class="col-grow"> </q-item>
+      <q-item clickable v-ripple>
+        <q-item-section avatar>
+          <q-icon name="logout" />
+        </q-item-section>
+        <q-item-section> Logout </q-item-section>
+      </q-item>
+      <!-- </q-scroll-area> -->
     </q-drawer>
 
+    <q-footer class="bg-red-7" reveal>
+      <q-toolbar>
+        <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+        <slot name="footer"></slot>
+      </q-toolbar>
+    </q-footer>
+
     <q-page-container>
-      <q-page padding>
-        <router-view></router-view>
+      <q-page class="q-px-md">
+        <slot name="content"></slot>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -48,10 +68,13 @@
 
 <script lang="ts">
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
 export default {
   setup() {
+    const $q = useQuasar();
     return {
       drawer: ref(false),
+      $q,
     };
   },
 };
