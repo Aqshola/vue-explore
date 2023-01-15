@@ -9,7 +9,7 @@
         <div class="col-md-6 col-12 q-pa-xl">
           <h1 class="text-h3 text-center text-weight-bold">Login</h1>
           <q-form
-            @submit="(e) => handleLogin(e)"
+            @submit.prevent="handleLogin"
             class="q-gutter-md q-mt-xl"
             v-bind:style="{
               width: $q.screen.md || ($q.screen.gt.md && '500px'),
@@ -68,6 +68,7 @@
 
             <div>
               <q-btn
+                :loading="loading"
                 glossy
                 label="Login"
                 type="submit"
@@ -113,8 +114,7 @@ export default {
     const loading = ref(false);
     const alertError = ref(false);
 
-    async function handleLogin(e: Event | SubmitEvent) {
-      e.preventDefault();
+    async function handleLogin() {
       loading.value = true;
       const result = await login(form.value.email, form.value.password);
 
@@ -126,6 +126,8 @@ export default {
         });
 
         router.push({ name: 'todoIndex' });
+      } else {
+        alertError.value = true;
       }
 
       loading.value = false;
@@ -139,6 +141,7 @@ export default {
       form,
       $q,
       alertError,
+      loading,
       handleLogin,
       closeError,
     };

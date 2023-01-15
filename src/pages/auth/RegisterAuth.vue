@@ -17,7 +17,7 @@
           <h1 class="text-h3 text-center text-weight-bold">Register</h1>
 
           <q-form
-            @submit="(e) => handleRegister(e)"
+            @submit.prevent="handleRegister"
             class="q-gutter-md q-mt-xl"
             v-bind:style="
               ($q.screen.md || $q.screen.gt.md) && {
@@ -122,8 +122,7 @@ export default {
     const loading = ref(false);
     const alertError = ref(false);
 
-    async function handleRegister(e: Event | SubmitEvent) {
-      e.preventDefault();
+    async function handleRegister() {
       loading.value = true;
       const result = await register(
         form.value.email,

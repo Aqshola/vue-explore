@@ -79,8 +79,6 @@ export async function login(
       .select()
       .eq('user_id', result.data.user?.id);
 
-    console.log(email, password);
-
     if (!dataUser.data || dataUser.data.length == 0) {
       return {
         status: 'error',
@@ -108,6 +106,16 @@ export async function login(
 }
 
 export async function loadUserLoggedIn(): Promise<AuthResponseVue<AuthData>> {
+  const session = await supabase.auth.getSession();
+
+  if (!session.data.session) {
+    return {
+      status: 'error',
+      msg: 'User not found',
+      data: null,
+    };
+  }
+
   const loggedId = await supabase.auth.getUser();
 
   if (!loggedId.data) {

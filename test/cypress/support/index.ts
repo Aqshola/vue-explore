@@ -1,6 +1,6 @@
 // ***********************************************************
-// This example support/e2e.ts is processed and
-// loaded automatically before your test files.
+// This example support/index.ts is processed and
+// loaded automatically before your e2e test files.
 //
 // This is a great place to put global configuration and
 // behavior that modifies Cypress.
@@ -13,8 +13,5 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.js using ES2015 syntax:
-import './commands'
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+import './commands';
+import '@cypress/code-coverage/support';
