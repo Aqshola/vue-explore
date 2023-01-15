@@ -4,36 +4,62 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainWrapper.vue'),
+    meta: {
+      privilage: 'all',
+    },
     children: [
-      { path: '', component: () => import('pages/homepage/IndexHome.vue') },
+      {
+        name: 'landing',
+        path: '',
+        component: () => import('pages/homepage/IndexHome.vue'),
+      },
     ],
   },
   {
     path: '/login',
+    meta: {
+      privilage: 'public',
+    },
     component: () => import('layouts/MainWrapper.vue'),
     children: [
-      { path: '', component: () => import('pages/auth/LoginAuth.vue') },
+      {
+        name: 'login',
+        path: '',
+        component: () => import('pages/auth/LoginAuth.vue'),
+      },
     ],
   },
   {
     path: '/register',
+    meta: {
+      privilage: 'public',
+    },
     component: () => import('layouts/MainWrapper.vue'),
     children: [
-      { path: '', component: () => import('pages/auth/RegisterAuth.vue') },
+      {
+        name: 'register',
+        path: '',
+        component: () => import('pages/auth/RegisterAuth.vue'),
+      },
     ],
   },
 
   {
     path: '/todo',
+    meta: {
+      privilage: 'private',
+    },
     children: [
-      { path: '', component: () => import('pages/todo/IndexTodo.vue') },
-    ],
-  },
-
-  {
-    path: '/todo/create',
-    children: [
-      { path: '', component: () => import('pages/todo/CreateTodo.vue') },
+      {
+        name: 'todoIndex',
+        path: '',
+        component: () => import('pages/todo/IndexTodo.vue'),
+      },
+      {
+        name: 'todoCreate',
+        path: 'create',
+        component: () => import('pages/todo/CreateTodo.vue'),
+      },
     ],
   },
 
@@ -41,6 +67,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
+    name: 'notFound',
     component: () => import('pages/ErrorNotFound.vue'),
   },
 ];

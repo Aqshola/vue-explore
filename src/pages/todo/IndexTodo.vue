@@ -50,7 +50,7 @@
         </swiper>
       </div>
 
-      <div class="q-mt-sm">
+      <div class="q-mt-sm q-mb-xl">
         <q-list bordered class="rounded-borders">
           <q-expansion-item label="Daily Routine" style="font-weight: 500">
             <q-list style="font-weight: normal">

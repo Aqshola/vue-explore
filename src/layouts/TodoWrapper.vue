@@ -19,7 +19,9 @@
           <q-icon name="account_circle" size="lg" />
         </q-item-section>
         <q-item-section style="width: 50px">
-          <h5 class="text-subtitle2 q-ma-none q-pa-none">John</h5>
+          <h5 class="text-subtitle2 q-ma-none q-pa-none">
+            {{ authData.userData?.name }}
+          </h5>
         </q-item-section>
         <q-space />
         <q-item-section avatar>
@@ -43,10 +45,13 @@
       </q-list>
       <q-item class="col-grow"> </q-item>
       <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <q-icon name="logout" />
-        </q-item-section>
-        <q-item-section> Logout </q-item-section>
+        <q-btn
+          icon="logout"
+          label="logout"
+          flat
+          style="padding-left: 0px"
+          @click="handleLogout"
+        />
       </q-item>
       <!-- </q-scroll-area> -->
     </q-drawer>
@@ -69,12 +74,26 @@
 <script lang="ts">
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
+import { logout } from 'src/service/auth';
+import { useAuthStore } from 'stores/authStore';
+import { useRouter } from 'vue-router';
 export default {
   setup() {
     const $q = useQuasar();
+    const state = useAuthStore();
+    const { clearAuth, authData } = state;
+    const router = useRouter();
+
+    async function handleLogout() {
+      await logout();
+      clearAuth();
+      router.push({ name: 'login' });
+    }
     return {
       drawer: ref(false),
       $q,
+      authData,
+      handleLogout,
     };
   },
 };

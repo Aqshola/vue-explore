@@ -6,6 +6,7 @@ import {
   createWebHistory,
 } from 'vue-router';
 
+import { useAuthStore } from 'src/stores/authStore';
 import routes from './routes';
 
 /*
@@ -20,7 +21,9 @@ import routes from './routes';
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
+    : process.env.VUE_ROUTER_MODE === 'history'
+    ? createWebHistory
+    : createWebHashHistory;
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
@@ -30,6 +33,30 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
+  });
+
+  Router.beforeEach(async (to, from, next) => {
+    const state = useAuthStore();
+    const { authData } = state;
+    const isAuthenticated = authData.isAuth;
+
+    if (!isAuthenticated) {
+      if (
+        to.name !== 'login' &&
+        to.name !== 'register' &&
+        to.name !== 'landing'
+      ) {
+        next({ name: 'login' });
+      } else {
+        next();
+      }
+    } else {
+      if (to.name == 'login' || to.name == 'register') {
+        next({ name: 'todoIndex' });
+      } else {
+        next();
+      }
+    }
   });
 
   return Router;
